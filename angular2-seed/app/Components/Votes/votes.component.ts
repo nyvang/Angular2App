@@ -5,19 +5,26 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core'
     template: `
     <div class="voteComponent">
         <div class="voteBox">
-            <span class="glyphicon glyphicon-menu-up" 
-            [class.highlighted]="myVote > 0"
-            (click)="upVote()"></span>
-            <span class="currentVotes">{{ currentVotes }}</span>
-            <span class="glyphicon glyphicon-menu-down"
-            [class.highlighted]="myVote < 0"
-            (click)="downVote()"></span>            
+            <span class="glyphicon glyphicon-menu-up voteButton"  
+                [class.highlighted]="myVote == 1"
+                (click)="upVote()">
+            </span>
+            
+            <span class="currentVotes">
+                {{ currentVotes + myVote}}
+            </span>
+            
+            <span class="glyphicon glyphicon-menu-down voteButton"
+                [class.highlighted]="myVote == -1"
+                (click)="downVote()">
+            </span>            
         </div>
     </div>  
     `,
     styles: [`
         .voteComponent {
             display: inline;
+            text-align: center;
         }
         .voteBox {
             width: 20px;
@@ -27,7 +34,9 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core'
         }
         .currentVotes {
             font-size: 1.5em;
-   
+        }
+        .voteButton {
+            cursor: pointer;
         }
         .highlighted {
             color: yellow;
@@ -39,17 +48,23 @@ export class VoteComponent {
     @Input() currentVotes: number = 0;  
     myVote: number = 0;
     @Output() change = new EventEmitter();
-    highLights = true;
-    downVote() {
-        this.myVote = -1;
-        this.currentVotes = this.currentVotes-1;
-        this.change.emit({ newValue: this.currentVotes });
-    }
+    
     
     upVote() {
-       this.myVote = +1;
-       this.currentVotes = this.currentVotes+1;
-       this.change.emit({ newValue: this.currentVotes });
-        
+        if(this.myVote == 1) {
+            return;
+        }
+        this.myVote++;
+
+        this.change.emit({ myVote: this.myVote });
+    }
+    
+    downVote() {
+        if(this.myVote == -1) {
+            return;
+        }
+        this.myVote--;
+
+        this.change.emit({ myVote: this.myVote }); 
     }
 }

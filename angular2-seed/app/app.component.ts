@@ -4,6 +4,7 @@ import {AuthorComponent}    from './Authors/author.component';
 import {FavoritesComponent} from './Components/Favorites/favorites.component';
 import {LikeComponent}      from './Components/Likes/like.component';
 import {VoteComponent}      from './Components/Votes/votes.component';
+import {TweetComponent}      from './Tweets/tweet.component';
 
 @Component({
     selector: 'my-app',
@@ -27,8 +28,10 @@ import {VoteComponent}      from './Components/Votes/votes.component';
         <courses></courses>
         
         <authors></authors>
+        
+        <tweetFeed></tweetFeed>
         `,
-    directives: [CoursesComponent, AuthorComponent, FavoritesComponent, LikeComponent, VoteComponent]
+    directives: [CoursesComponent, AuthorComponent, FavoritesComponent, LikeComponent, VoteComponent, TweetComponent]
 })
 export class AppComponent { 
     post = {

@@ -23,17 +23,20 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.currentVotes = 0;
                     this.myVote = 0;
                     this.change = new core_1.EventEmitter();
-                    this.highLights = true;
                 }
-                VoteComponent.prototype.downVote = function () {
-                    this.myVote = -1;
-                    this.currentVotes = this.currentVotes - 1;
-                    this.change.emit({ newValue: this.currentVotes });
-                };
                 VoteComponent.prototype.upVote = function () {
-                    this.myVote = +1;
-                    this.currentVotes = this.currentVotes + 1;
-                    this.change.emit({ newValue: this.currentVotes });
+                    if (this.myVote == 1) {
+                        return;
+                    }
+                    this.myVote++;
+                    this.change.emit({ myVote: this.myVote });
+                };
+                VoteComponent.prototype.downVote = function () {
+                    if (this.myVote == -1) {
+                        return;
+                    }
+                    this.myVote--;
+                    this.change.emit({ myVote: this.myVote });
                 };
                 __decorate([
                     core_1.Input(), 
@@ -46,8 +49,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 VoteComponent = __decorate([
                     core_1.Component({
                         selector: 'voteComponent',
-                        template: "\n    <div class=\"voteComponent\">\n        <div class=\"voteBox\">\n            <span class=\"glyphicon glyphicon-menu-up\" \n            [class.highlighted]=\"myVote > 0\"\n            (click)=\"upVote()\"></span>\n            <span class=\"currentVotes\">{{ currentVotes }}</span>\n            <span class=\"glyphicon glyphicon-menu-down\"\n            [class.highlighted]=\"myVote < 0\"\n            (click)=\"downVote()\"></span>            \n        </div>\n    </div>  \n    ",
-                        styles: ["\n        .voteComponent {\n            display: inline;\n        }\n        .voteBox {\n            width: 20px;\n        }\n        .glyphicon {\n            font-size: 2em;\n        }\n        .currentVotes {\n            font-size: 1.5em;\n   \n        }\n        .highlighted {\n            color: yellow;\n        }\n     "]
+                        template: "\n    <div class=\"voteComponent\">\n        <div class=\"voteBox\">\n            <span class=\"glyphicon glyphicon-menu-up voteButton\"  \n                [class.highlighted]=\"myVote == 1\"\n                (click)=\"upVote()\">\n            </span>\n            \n            <span class=\"currentVotes\">\n                {{ currentVotes + myVote}}\n            </span>\n            \n            <span class=\"glyphicon glyphicon-menu-down voteButton\"\n                [class.highlighted]=\"myVote == -1\"\n                (click)=\"downVote()\">\n            </span>            \n        </div>\n    </div>  \n    ",
+                        styles: ["\n        .voteComponent {\n            display: inline;\n            text-align: center;\n        }\n        .voteBox {\n            width: 20px;\n        }\n        .glyphicon {\n            font-size: 2em;\n        }\n        .currentVotes {\n            font-size: 1.5em;\n        }\n        .voteButton {\n            cursor: pointer;\n        }\n        .highlighted {\n            color: yellow;\n        }\n     "]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], VoteComponent);
